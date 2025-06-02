@@ -15,24 +15,6 @@ export const AgentsView = () => {
     // This has already fetched data, so no need to use isLoading or isError
     const { data } = useSuspenseQuery(trpc.agents.getMany.queryOptions());
 
-    // if(isLoading) {
-    //     return (
-    //         <LoadingState 
-    //             title="Loading agents"
-    //             description="This may take few seconds..."
-    //         />
-    //     );
-    // }
-
-    // if(isError) {
-    //     return (
-    //         <ErrorState 
-    //             title="Error loading agents"
-    //             description="Please try again later"            
-    //         />
-    //     );
-    // }
-
     return (
         <div className="">
             {JSON.stringify(data, null, 2)}
