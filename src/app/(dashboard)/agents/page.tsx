@@ -17,7 +17,7 @@ const Page = async () => {
     });
 
     if(!session) {
-        redirect("/login");
+        redirect("/sign-in");
     }
 
     const queryClient = getQueryClient();
