@@ -54,7 +54,7 @@ export function DataTable<TData, TValue>({
                     ) : (
                         <TableRow>
                             <TableCell colSpan={columns.length} className="h-19 text-center text-muted-foreground">
-                                No agents found.
+                                No results.
                             </TableCell>
                         </TableRow>
                     )}
