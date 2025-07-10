@@ -33,8 +33,7 @@ export function DataTable<TData, TValue>({
 
     return (
         <div className="rounded-lg border bg-background overflow-hidden">
-            <Table>
-                
+            <Table> 
                 <TableBody>
                     {table.getRowModel().rows?.length ? (
                         table.getRowModel().rows.map((row) => (

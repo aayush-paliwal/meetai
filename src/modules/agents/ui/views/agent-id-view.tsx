@@ -74,13 +74,13 @@ export const AgentIdView = ({ agentId }: Props) => {
                                 variant="botttsNeutral"
                                 seed={data.name}
                                 className="size-10"
-                                />
+                            />
                             <h2 className="text-2xl font-medium">{data.name}</h2>
                         </div>
-                        <Badge
+                        <Badge  
                             variant="outline"
                             className="flex items-center gap-x-2 [&>svg]:size-4"
-                            >
+                        >
                             <VideoIcon className="text-blue-700" />
                             {data.meetingCount} {data.meetingCount === 1 ? "meeting" : "meetings"}
                         </Badge>
