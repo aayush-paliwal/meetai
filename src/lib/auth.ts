@@ -1,11 +1,35 @@
+import { betterAuth } from "better-auth";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { polar, checkout, portal } from "@polar-sh/better-auth"; 
+
 import { db } from "@/db";
 import * as schema from "@/db/schema";
 
-import { betterAuth } from "better-auth";
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
- 
+import { polarClient } from "./polar"; 
+
 
 export const auth = betterAuth({
+    plugins: [
+        polar({ 
+            client: polarClient, 
+            createCustomerOnSignUp: true, 
+            use: [ 
+                checkout({ 
+                    authenticatedUsersOnly: true,
+                    successUrl: "/upgrade", 
+                }), 
+                portal(), 
+                // usage(), 
+                // webhooks({ 
+                //     secret: process.env.POLAR_WEBHOOK_SECRET, 
+                //     onCustomerStateChanged: (payload) => // Triggered when anything regarding a customer changes
+                //     onOrderPaid: (payload) => // Triggered when an order was paid (purchase, subscription renewal, etc.)
+                //     ...  // Over 25 granular webhook handlers
+                //     onPayload: (payload) => // Catch-all for all events
+                // }) 
+            ], 
+        }) 
+    ],
     database: drizzleAdapter(db, {
         provider: "pg",
         schema: {

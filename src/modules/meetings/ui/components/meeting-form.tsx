@@ -2,6 +2,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -27,6 +28,7 @@ interface MeetingFormProps {
 
 export const MeetingForm = ({ onSuccess, onCancel, initialValues }: MeetingFormProps) => {
     const trpc = useTRPC();
+    const router = useRouter();
     const queryClient = useQueryClient();
 
     const [openNewAgentDialog, setOpenNewAgentDialog] = useState(false);
@@ -56,6 +58,7 @@ export const MeetingForm = ({ onSuccess, onCancel, initialValues }: MeetingFormP
         trpc.meetings.update.mutationOptions({
             onSuccess: async () => {
                 await queryClient.invalidateQueries(trpc.meetings.getMany.queryOptions({}));
+                await queryClient.invalidateQueries(trpc.premium.getFreeUsage.queryOptions());
 
                 if(initialValues?.id) {
                     await queryClient.invalidateQueries(trpc.meetings.getOne.queryOptions({ id: initialValues.id }))
@@ -65,6 +68,10 @@ export const MeetingForm = ({ onSuccess, onCancel, initialValues }: MeetingFormP
             },
             onError: (error) => {
                 toast.error(error.message);
+
+                if(error.data?.code === "FORBIDDEN") {
+                    router.push("/upgrade");
+                }
             },
         }),
     );
